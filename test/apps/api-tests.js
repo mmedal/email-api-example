@@ -10,7 +10,27 @@ test('GET /api', t => {
     .expect(200)
     .end((err, res) => {
       t.error(err, 'no request error');
-      t.deepEqual(res.body, { hello: 'world' }, 'received expected response');
+      t.deepEqual(res.body, { email: 'http://127.0.0.1/api/email' },
+        'received expected response');
+      t.end();
+    });
+});
+
+test('GET /api/email', t => {
+  request(app).post('/api/email')
+    .send({
+      to: 'bademail',
+      from: 'fake@fake.com',
+      fromName: 'fakeeee',
+      subject: 'fake',
+      body: 'fake'
+    })
+    .auth(ADMIN_NAME, ADMIN_PASSWORD)
+    .expect(400)
+    .end((err, res) => {
+      t.error(err, 'no request error');
+      t.equal(res.body.name, 'EmailValidationException',
+        'email endpoint successfully bubbles up validation/api exceptions');
       t.end();
     });
 });
