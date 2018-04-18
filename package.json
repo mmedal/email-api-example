@@ -1,6 +1,6 @@
 {
   "name": "email-api-example",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A sample implementation of a multi-email-api backend.",
   "author": "Matthew Medal",
   "license": "MIT",
