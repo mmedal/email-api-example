@@ -54,18 +54,18 @@ test('mailgun email sending should work as expected', async t => {
   );
   const client = new EmailSender(email);
 
-  nock('https://api.mailgun.net:443', {"encodedQueryParams":true})
+  nock('https://api.mailgun.net:443', {'encodedQueryParams': true})
     .post(`/v3/${MAILGUN_DOMAIN}/messages`, /.+/)
     .reply(201);
   await client.sendMailViaMailgun();
   t.pass('when mailgun returns a 201, the mail client succeeds silently');
 
-  nock('https://api.mailgun.net:443', {"encodedQueryParams":true})
+  nock('https://api.mailgun.net:443', {'encodedQueryParams': true})
     .post(`/v3/${MAILGUN_DOMAIN}/messages`, /.+/)
     .replyWithError({
       name: 'StatusCodeError: 401 - "Forbidden"',
       message: '401 - "Forbidden"',
-      statusCode: 401,
+      statusCode: 401
     });
   try {
     await client.sendMailViaMailgun();
@@ -87,18 +87,18 @@ test('mandrill email sending should work as expected', async t => {
   );
   const client = new EmailSender(email);
 
-  nock('https://mandrillapp.com:443', {"encodedQueryParams":true})
+  nock('https://mandrillapp.com:443', {'encodedQueryParams': true})
     .post('/api/1.0/messages/send.json', /.+/)
     .reply(201);
   await client.sendMailViaMandrill();
   t.pass('when mandrill returns a 201, the mail client succeeds silently');
 
-  nock('https://mandrillapp.com:443', {"encodedQueryParams":true})
+  nock('https://mandrillapp.com:443', {'encodedQueryParams': true})
     .post('/api/1.0/messages/send.json', /.+/)
     .replyWithError({
       name: 'StatusCodeError: 401 - "Forbidden"',
       message: '401 - "Forbidden"',
-      statusCode: 401,
+      statusCode: 401
     });
   try {
     await client.sendMailViaMandrill();
